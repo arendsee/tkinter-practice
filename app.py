@@ -4,16 +4,14 @@ from tkinter import *
 class ZButton(Button):
     def __init__(self, title, column, row, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.configure(text = title)
+        self.configure(text = title, command = self.clicked)
         self.grid(column=column, row=row)
-        self.bind("<1>", self.clicked)
-        self.bind("<Return>", self.clicked)
 
-    def clicked(self, e):
+    def clicked(self):
         raise NotImplemented 
 
 class MyButton(ZButton):
-    def clicked(self, e):
+    def clicked(self):
         if(self['text'] == 'click me'): 
             self.configure(text='hahaha')
         else:
@@ -25,7 +23,7 @@ class ExitButton(ZButton):
         self.root = root 
         self.focus_force()
 
-    def clicked(self, e):
+    def clicked(self):
         self.root.destroy()
 
 class MyApp:
