@@ -9,4 +9,5 @@ Here is a partial list of resources I am using:
    tutorial that, in Python style, emphasizes the one right way of doing it.
 
  * [Thinking in Tkinter](http://thinkingtkinter.sourceforge.net/) - tkl has
-   developed a lot since this was written, but still it is wonderfully written
+   developed a lot since this was written, but its intuitive approach and
+   bloatless format makes it worthy of study.

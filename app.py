@@ -6,6 +6,7 @@ class ZButton(Button):
         super().__init__(*args, **kwargs)
         self.configure(text = title, command = self.clicked)
         self.grid(column=column, row=row)
+        self.bind("<Return>", lambda e: self.clicked())
 
     def clicked(self):
         raise NotImplemented 
