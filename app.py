@@ -59,13 +59,21 @@ class MyApp:
 
         self.f1 = MyFrame(root, title="Frame One")
         self.f1.add_to_notebook(self.nb)
-        self.button1 = MyButton(master=self.f1, title='click me', row=0, column=0)
-        self.button_exit = ExitButton(root, master=self.f1, title='exit', row=0, column=1)
+        self.pbut1 = PrintButton(text='1', master=self.f1, title='print 1', row=0, column=0)
+        self.pbut2 = PrintButton(text='2', master=self.f1, title='print 2', row=0, column=1)
+        self.button1 = MyButton(master=self.f1, title='click me', row=1, column=0)
+        self.button_exit = ExitButton(root, master=self.f1, title='exit', row=1, column=1)
         
         self.f2 = MyFrame(root, title="Frame Two")
         self.f2.add_to_notebook(self.nb)
-        self.pbut1 = PrintButton(text='1', master=self.f2, title='print 1', row=1, column=0)
-        self.pbut2 = PrintButton(text='2', master=self.f2, title='print 2', row=1, column=2)
+        # TODO, find out why this is not showing up
+        self.f2_nest_frame = MyFrame(self.f2, title="Frame two child")
+
+        self.f3 = MyFrame(root, title="Frame Three")
+        self.f3.add_to_notebook(self.nb)
+
+        self.f4 = MyFrame(root, title="Frame Four")
+        self.f4.add_to_notebook(self.nb)
 
         root.mainloop()
 
