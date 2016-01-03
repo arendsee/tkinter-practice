@@ -10,16 +10,23 @@ class MyButton(Button):
         self.bind("<Return>", lambda e: self.clicked())
 
     def clicked(self):
-        raise NotImplemented 
+        raise NotImplemented
 
-class MyButton(MyButton):
+class TrickButton(MyButton):
+    def __init__(self, title, *args, **kwargs):
+        super().__init__(title=title, *args, **kwargs)
+        self.original_title = title
+        self.alternative_title = 'hahaha'
+        self.configure(width = max(len(title), len(self.alternative_title)) + 1)
+
     def clicked(self):
-        if(self['text'] == 'click me'): 
-            self.configure(text='hahaha')
+        if(self['text'] == self.original_title):
+            self.configure(text=self.alternative_title)
         else:
-            self.configure(text='click me')
+            self.configure(text=self.original_title)
 
 class PrintButton(MyButton):
+    # TODO at seemingly random times, these buttons print twice, why?
     def __init__(self, text, *args, **kwargs):
         self.text = text
         super().__init__(*args, **kwargs)
@@ -30,7 +37,7 @@ class PrintButton(MyButton):
 class ExitButton(MyButton):
     def __init__(self, root, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.root = root 
+        self.root = root
         self.focus_force()
 
     def clicked(self):
@@ -61,9 +68,9 @@ class MyApp:
         self.f1.add_to_notebook(self.nb)
         self.pbut1 = PrintButton(text='1', master=self.f1, title='print 1', row=0, column=0)
         self.pbut2 = PrintButton(text='2', master=self.f1, title='print 2', row=0, column=1)
-        self.button1 = MyButton(master=self.f1, title='click me', row=1, column=0)
+        self.button1 = TrickButton(master=self.f1, title='click me', row=1, column=0)
         self.button_exit = ExitButton(root, master=self.f1, title='exit', row=1, column=1)
-        
+
         self.f2 = MyFrame(root, title="Frame Two")
         self.f2.add_to_notebook(self.nb)
         # TODO, find out why this is not showing up
