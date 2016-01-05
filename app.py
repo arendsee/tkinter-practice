@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import re
 
 class MyButton(Button):
     def __init__(self, title, column, row, *args, **kwargs):
@@ -121,6 +122,25 @@ class MyApp:
 
         self.f4 = MyFrame(root, title="Frame Four")
         self.f4.add_to_notebook(self.nb)
+
+        # --------------------------------------
+        # --- implement a regular expression GUI
+        expression = StringVar()
+        pattern = StringVar()
+        match = StringVar()
+
+        def get_match(*args):
+            match.set(re.search(pattern.get(), expression.get()).group())
+
+        ttk.Entry(self.f4, width=20, textvariable=expression).grid(column=0, row=0, pady=5)
+        ttk.Label(self.f4, text='expression').grid(column=1, row=0, sticky=W, padx=5)
+
+        ttk.Entry(self.f4, width=20, textvariable=pattern).grid(column=0, row=1, pady=5)
+        ttk.Label(self.f4, text='pattern').grid(column=1, row=1, sticky=W, padx=5)
+
+        ttk.Label(self.f4, textvariable=match).grid(column=0, row=2, sticky=W, padx=5)
+
+        CallButton(master=self.f4, title="Do It", column=0, row=3, padx=5, func=get_match)
 
         root.mainloop()
 
