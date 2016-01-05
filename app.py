@@ -117,12 +117,18 @@ class MyApp:
         # --- Nested frame
         self.f2 = MyPanedwindow(root, title='Frame Two', orient=VERTICAL)
         self.f2.add_to_notebook(self.nb)
-        nf1 = ttk.Labelframe(self.f2, text="Nested Frame 1", height=30, width=100)
+        nf1 = ttk.Labelframe(self.f2, text="Nested Frame 1", width=100)
         nf2 = ttk.Labelframe(self.f2, text="Nested Frame 2", width=100)
         nf3 = ttk.Labelframe(self.f2, text="Nested Frame 3", width=100)
+        ttk.Label(nf1, text='frame 1').grid(row=0, column=0, padx=5, pady=5)
+        ttk.Label(nf2, text='frame 2').grid(row=0, column=0, padx=5, pady=5)
+        ttk.Label(nf3, text='frame 3').grid(row=0, column=0, padx=5, pady=5)
         self.f2.add(nf1)
         self.f2.add(nf2)
         self.f2.add(nf3)
+
+
+
 
         # ----------------------
         # --- MessageBox buttons
