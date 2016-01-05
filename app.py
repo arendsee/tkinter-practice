@@ -91,6 +91,14 @@ class MyFrame(ttk.Frame):
     def add_to_notebook(self, nb):
         nb.add(self, text=self.title)
 
+class MyPanedwindow(ttk.Panedwindow):
+    def __init__(self, root, title,  *args, **kwargs):
+        super().__init__(master=root, *args, **kwargs)
+        self.title=title
+
+    def add_to_notebook(self, nb):
+        nb.add(self, text=self.title)
+
 
 class MyApp:
     def __init__(self):
@@ -105,11 +113,17 @@ class MyApp:
         self.button1 = TrickButton(master=self.f1, title='click me', row=1, column=0)
         self.button_exit = ExitButton(root, master=self.f1, title='exit', row=1, column=1)
 
-        self.f2 = MyFrame(root, title="Frame Two")
+        # ----------------
+        # --- Nested frame
+        self.f2 = MyPanedwindow(root, title='Frame Two', orient=VERTICAL)
         self.f2.add_to_notebook(self.nb)
-        # TODO, find out why this is not showing up
-        self.f2_nest_frame = MyFrame(self.f2, title="Frame two child")
+        nf1 = ttk.Labelframe(self.f2, text="Nested Frame 1", width=100, height=100)
+        nf2 = ttk.Labelframe(self.f2, text="Nested Frame 2", width=100, height=100)
+        self.f2.add(nf1)
+        self.f2.add(nf2)
 
+        # ----------------------
+        # --- MessageBox buttons
         self.f3 = MyFrame(root, title="Frame Three")
         self.f3.add_to_notebook(self.nb)
         self.b3_1 = CallButton(master=self.f3, title='askokcancel', row=0, column=0, func=MessageBoxFactory.askokcancel())
@@ -120,11 +134,11 @@ class MyApp:
         self.b3_6 = CallButton(master=self.f3, title='showinfo', row=1, column=2, func=MessageBoxFactory.showinfo())
         self.b3_7 = CallButton(master=self.f3, title='showwarning', row=2, column=0, func=MessageBoxFactory.showwarning())
 
+        # --------------------------------------
+        # --- implement a regular expression GUI
         self.f4 = MyFrame(root, title="Frame Four")
         self.f4.add_to_notebook(self.nb)
 
-        # --------------------------------------
-        # --- implement a regular expression GUI
         expression = StringVar()
         pattern = StringVar()
         match = StringVar()
