@@ -35,8 +35,6 @@ class CallButton(MyButton):
     def clicked(self):
         self.func()
 
-
-
 class PrintButton(MyButton):
     # TODO at seemingly random times, these buttons print twice, why?
     def __init__(self, text, *args, **kwargs):
@@ -106,7 +104,9 @@ class MyApp:
         root.title('Test of an app')
         self.nb = MyNotebook(root)
 
-        self.f1 = MyFrame(root, title="Frame One")
+        # ----------------
+        # --- Simple buttons
+        self.f1 = MyFrame(root, title="Simple buttons")
         self.f1.add_to_notebook(self.nb)
         self.pbut1 = PrintButton(text='1', master=self.f1, title='print 1', row=0, column=0)
         self.pbut2 = PrintButton(text='2', master=self.f1, title='print 2', row=0, column=1)
@@ -115,7 +115,7 @@ class MyApp:
 
         # ----------------
         # --- Nested frame
-        self.f2 = MyPanedwindow(root, title='Frame Two', orient=VERTICAL)
+        self.f2 = MyPanedwindow(root, title='Nested frames', orient=VERTICAL)
         self.f2.add_to_notebook(self.nb)
         nf1 = ttk.Labelframe(self.f2, text="Nested Frame 1", width=100)
         nf2 = ttk.Labelframe(self.f2, text="Nested Frame 2", width=100)
@@ -132,7 +132,7 @@ class MyApp:
 
         # ----------------------
         # --- MessageBox buttons
-        self.f3 = MyFrame(root, title="Frame Three")
+        self.f3 = MyFrame(root, title="messagebox")
         self.f3.add_to_notebook(self.nb)
         self.b3_1 = CallButton(master=self.f3, title='askokcancel', row=0, column=0, func=MessageBoxFactory.askokcancel())
         self.b3_2 = CallButton(master=self.f3, title='askquestion', row=0, column=1, func=MessageBoxFactory.askquestion())
@@ -144,7 +144,7 @@ class MyApp:
 
         # --------------------------------------
         # --- implement a regular expression GUI
-        self.f4 = MyFrame(root, title="Frame Four")
+        self.f4 = MyFrame(root, title="regex")
         self.f4.add_to_notebook(self.nb)
 
         expression = StringVar()
