@@ -38,11 +38,17 @@ class App:
         if event.num == 4 or event.delta == 120:
             self.width = math.floor(min(500, self.width + 1))
 
+    def drawPolygon(self, event):
+        self.canvas.create_polygon(
+            self.lastx, self.lasty - self.width/2,
+            self.lastx, self.lasty + self.width/2,
+            event.x, event.y + self.width/2,
+            event.x, event.y - self.width/2,
+            fill=self.fill)
+
     def addLine(self, event):
         self.fill = 'blue' if self.fill == 'red' else 'red'
-        self.canvas.create_line(
-            self.lastx, self.lasty, event.x, event.y,
-            fill=self.fill, width=self.width)
-        self.lastx, self.lasty = event.x, event.y
+        self.drawPolygon(event)
+        self.xy(event)
 
 App()
