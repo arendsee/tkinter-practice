@@ -100,53 +100,58 @@ class MyPanedwindow(ttk.Panedwindow):
 
 class MyApp:
     def __init__(self):
-        root = Tk()
-        root.title('Test of an app')
-        self.nb = MyNotebook(root)
+        self.root = Tk()
+        self.root.title('Test of an app')
+        self.nb = MyNotebook(self.root)
 
-        # ----------------
-        # --- Simple buttons
-        self.f1 = MyFrame(root, title="Simple buttons")
-        self.f1.add_to_notebook(self.nb)
-        self.pbut1 = PrintButton(text='1', master=self.f1, title='print 1', row=0, column=0)
-        self.pbut2 = PrintButton(text='2', master=self.f1, title='print 2', row=0, column=1)
-        self.button1 = TrickButton(master=self.f1, title='click me', row=1, column=0)
-        self.button_exit = ExitButton(root, master=self.f1, title='exit', row=1, column=1)
+        self.add_f1()
+        self.add_f2()
+        self.add_f3()
+        self.add_f4()
+        self.add_f5()
 
-        # ----------------
-        # --- Nested frame
-        self.f2 = MyPanedwindow(root, title='Nested frames', orient=VERTICAL)
-        self.f2.add_to_notebook(self.nb)
-        nf1 = ttk.Labelframe(self.f2, text="Nested Frame 1", width=100)
-        nf2 = ttk.Labelframe(self.f2, text="Nested Frame 2", width=100)
-        nf3 = ttk.Labelframe(self.f2, text="Nested Frame 3", width=100)
+        self.root.mainloop()
+
+    def add_f1(self):
+        # Simple buttons
+        f1 = MyFrame(self.root, title="Simple buttons")
+        f1.add_to_notebook(self.nb)
+        pbut1 = PrintButton(text='1', master=f1, title='print 1', row=0, column=0)
+        pbut2 = PrintButton(text='2', master=f1, title='print 2', row=0, column=1)
+        button1 = TrickButton(master=f1, title='click me', row=1, column=0)
+        button_exit = ExitButton(self.root, master=f1, title='exit', row=1, column=1)
+
+    def add_f2(self):
+        # Nested frame
+        f2 = MyPanedwindow(self.root, title='Nested frames', orient=VERTICAL)
+        f2.add_to_notebook(self.nb)
+        nf1 = ttk.Labelframe(f2, text="Nested Frame 1", width=100)
+        nf2 = ttk.Labelframe(f2, text="Nested Frame 2", width=100)
+        nf3 = ttk.Labelframe(f2, text="Nested Frame 3", width=100)
         ttk.Label(nf1, text='frame 1').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(nf2, text='frame 2').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(nf3, text='frame 3').grid(row=0, column=0, padx=5, pady=5)
-        self.f2.add(nf1)
-        self.f2.add(nf2)
-        self.f2.add(nf3)
+        f2.add(nf1)
+        f2.add(nf2)
+        f2.add(nf3)
+
+    def add_f3(self):
+        # MessageBox buttons
+        f3 = MyFrame(self.root, title="messagebox")
+        f3.add_to_notebook(self.nb)
+        b3_1 = CallButton(master=f3, title='askokcancel', row=0, column=0, func=MessageBoxFactory.askokcancel())
+        b3_2 = CallButton(master=f3, title='askquestion', row=0, column=1, func=MessageBoxFactory.askquestion())
+        b3_3 = CallButton(master=f3, title='askretrycancel', row=0, column=2, func=MessageBoxFactory.askretrycancel())
+        b3_4 = CallButton(master=f3, title='askyesno', row=1, column=0, func=MessageBoxFactory.askyesno())
+        b3_5 = CallButton(master=f3, title='showerror', row=1, column=1, func=MessageBoxFactory.showerror())
+        b3_6 = CallButton(master=f3, title='showinfo', row=1, column=2, func=MessageBoxFactory.showinfo())
+        b3_7 = CallButton(master=f3, title='showwarning', row=2, column=0, func=MessageBoxFactory.showwarning())
 
 
-
-
-        # ----------------------
-        # --- MessageBox buttons
-        self.f3 = MyFrame(root, title="messagebox")
-        self.f3.add_to_notebook(self.nb)
-        self.b3_1 = CallButton(master=self.f3, title='askokcancel', row=0, column=0, func=MessageBoxFactory.askokcancel())
-        self.b3_2 = CallButton(master=self.f3, title='askquestion', row=0, column=1, func=MessageBoxFactory.askquestion())
-        self.b3_3 = CallButton(master=self.f3, title='askretrycancel', row=0, column=2, func=MessageBoxFactory.askretrycancel())
-        self.b3_4 = CallButton(master=self.f3, title='askyesno', row=1, column=0, func=MessageBoxFactory.askyesno())
-        self.b3_5 = CallButton(master=self.f3, title='showerror', row=1, column=1, func=MessageBoxFactory.showerror())
-        self.b3_6 = CallButton(master=self.f3, title='showinfo', row=1, column=2, func=MessageBoxFactory.showinfo())
-        self.b3_7 = CallButton(master=self.f3, title='showwarning', row=2, column=0, func=MessageBoxFactory.showwarning())
-
-        # --------------------------------------
-        # --- implement a regular expression GUI
-        self.f4 = MyFrame(root, title="regex")
-        self.f4.add_to_notebook(self.nb)
-
+    def add_f4(self):
+        # implement a regular expression GUI
+        f4 = MyFrame(self.root, title="regex")
+        f4.add_to_notebook(self.nb)
         expression = StringVar()
         pattern = StringVar()
         match = StringVar()
@@ -154,29 +159,23 @@ class MyApp:
         def get_match(*args):
             match.set(re.search(pattern.get(), expression.get()).group())
 
-        ttk.Entry(self.f4, width=20, textvariable=expression).grid(column=0, row=0, pady=5)
-        ttk.Label(self.f4, text='expression').grid(column=1, row=0, sticky=W, padx=5)
+        ttk.Entry(f4, width=20, textvariable=expression).grid(column=0, row=0, pady=5)
+        ttk.Label(f4, text='expression').grid(column=1, row=0, sticky=W, padx=5)
+        ttk.Entry(f4, width=20, textvariable=pattern).grid(column=0, row=1, pady=5)
+        ttk.Label(f4, text='pattern').grid(column=1, row=1, sticky=W, padx=5)
+        ttk.Label(f4, textvariable=match).grid(column=0, row=2, sticky=W, padx=5)
+        CallButton(master=f4, title="Do It", column=0, row=3, padx=5, func=get_match)
 
-        ttk.Entry(self.f4, width=20, textvariable=pattern).grid(column=0, row=1, pady=5)
-        ttk.Label(self.f4, text='pattern').grid(column=1, row=1, sticky=W, padx=5)
+    def add_f5(self):
+        # implement a regular expression GUI
+        f5 = MyFrame(self.root, title="canvas")
+        f5.add_to_notebook(self.nb)
+        canvas = Canvas(f5)
+        canvas.grid(column=0, row=0, sticky=(N, W, E, S))
+        canvas_frame = ttk.Frame(f5, width=400, height=300)
+        canvas_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+        canvas_frame.title = 'Hello'
+        canvas.create_window(50, 50, window=canvas_frame)
 
-        ttk.Label(self.f4, textvariable=match).grid(column=0, row=2, sticky=W, padx=5)
-
-        CallButton(master=self.f4, title="Do It", column=0, row=3, padx=5, func=get_match)
-
-        # --------------------------------------
-        # --- implement a regular expression GUI
-        self.f4 = MyFrame(root, title="canvas")
-        self.f4.add_to_notebook(self.nb)
-        self.canvas = Canvas(self.f4)
-        self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
-
-        self.canvas_frame = ttk.Frame(self.f4, width=400, height=300)
-        self.canvas_frame.grid(column=0, row=0, sticky=(N, W, E, S))
-        self.canvas_frame.title = 'Hello'
-
-        self.canvas.create_window(50, 50, window=self.canvas_frame)
-
-        root.mainloop()
 
 MyApp()
