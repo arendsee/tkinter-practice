@@ -164,6 +164,19 @@ class MyApp:
 
         CallButton(master=self.f4, title="Do It", column=0, row=3, padx=5, func=get_match)
 
+        # --------------------------------------
+        # --- implement a regular expression GUI
+        self.f4 = MyFrame(root, title="canvas")
+        self.f4.add_to_notebook(self.nb)
+        self.canvas = Canvas(self.f4)
+        self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
+
+        self.canvas_frame = ttk.Frame(self.f4, width=400, height=300)
+        self.canvas_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+        self.canvas_frame.title = 'Hello'
+
+        self.canvas.create_window(50, 50, window=self.canvas_frame)
+
         root.mainloop()
 
 MyApp()
