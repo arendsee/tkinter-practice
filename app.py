@@ -98,6 +98,36 @@ class MyPanedwindow(ttk.Panedwindow):
         nb.add(self, text=self.title)
 
 
+class FloatingWindow(MyFrame):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.configure(relief = 'raised', padding = (30,20))
+
+    def add_to_notebook(self, nb):
+        NotImplemented
+
+class Draggable:
+    def __init__(self, thing, parent, *args, **kwargs):
+        self.thing = thing
+        self.parent = parent
+
+        fid = parent.create_window(window=thing, *args, **kwargs)
+        parent.tag_bind(fid, '<ButtonPress-1>',   self.select)
+        parent.tag_bind(fid, '<B1-Motion>',       self.drag)
+        parent.tag_bind(fid, '<ButtonRelease-1>', self.drop)
+
+    def move(self, event):
+        NotImplemented
+
+    def select(self, event):
+        NotImplemented
+
+    def drag(self, event):
+        NotImplemented
+
+    def drop(self, event):
+        NotImplemented
+
 class MyApp:
     def __init__(self):
         self.root = Tk()
@@ -147,7 +177,6 @@ class MyApp:
         b3_6 = CallButton(master=f3, title='showinfo', row=1, column=2, func=MessageBoxFactory.showinfo())
         b3_7 = CallButton(master=f3, title='showwarning', row=2, column=0, func=MessageBoxFactory.showwarning())
 
-
     def add_f4(self):
         # implement a regular expression GUI
         f4 = MyFrame(self.root, title="regex")
@@ -172,10 +201,9 @@ class MyApp:
         f5.add_to_notebook(self.nb)
         canvas = Canvas(f5)
         canvas.grid(column=0, row=0, sticky=(N, W, E, S))
-        canvas_frame = ttk.Frame(f5, width=400, height=300)
-        canvas_frame.grid(column=0, row=0, sticky=(N, W, E, S))
-        canvas_frame.title = 'Hello'
-        canvas.create_window(50, 50, window=canvas_frame)
 
+        cf = FloatingWindow(root=f5, title="Floating Window")
+        CallButton(master=cf, title='showinfo', row=0, column=0, func=MessageBoxFactory.showinfo())
+        drag_cf = Draggable(cf, canvas, 50, 30)
 
 MyApp()
