@@ -4,22 +4,26 @@ from tkinter import ttk
 from tkinter import messagebox
 import re
 
+
 class MyButton(Button):
+
     def __init__(self, title, column, row, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.configure(text = title, command = self.clicked)
+        self.configure(text=title, command=self.clicked)
         self.grid(column=column, row=row, padx=5, pady=5)
         self.bind("<Return>", lambda e: self.clicked())
 
     def clicked(self):
         raise NotImplemented
 
+
 class TrickButton(MyButton):
+
     def __init__(self, title, *args, **kwargs):
         super().__init__(title=title, *args, **kwargs)
         self.original_title = title
         self.alternative_title = 'hahaha'
-        self.configure(width = max(len(title), len(self.alternative_title)) + 1)
+        self.configure(width=max(len(title), len(self.alternative_title)) + 1)
 
     def clicked(self):
         if(self['text'] == self.original_title):
@@ -27,7 +31,9 @@ class TrickButton(MyButton):
         else:
             self.configure(text=self.original_title)
 
+
 class CallButton(MyButton):
+
     def __init__(self, func, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.func = func
@@ -35,8 +41,10 @@ class CallButton(MyButton):
     def clicked(self):
         self.func()
 
+
 class PrintButton(MyButton):
     # TODO at seemingly random times, these buttons print twice, why?
+
     def __init__(self, text, *args, **kwargs):
         self.text = text
         super().__init__(*args, **kwargs)
@@ -44,7 +52,9 @@ class PrintButton(MyButton):
     def clicked(self):
         print(self.text)
 
+
 class ExitButton(MyButton):
+
     def __init__(self, root, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.root = root
@@ -53,7 +63,9 @@ class ExitButton(MyButton):
     def clicked(self):
         self.root.destroy()
 
+
 class MessageBoxFactory():
+
     def askokcancel(title='askokcancel', message='message'):
         return lambda t=title, m=message: messagebox.askokcancel(t, m)
 
@@ -75,38 +87,47 @@ class MessageBoxFactory():
     def showwarning(title='showwarning', message='message'):
         return lambda t=title, m=message: messagebox.showwarning(t, m)
 
+
 class MyNotebook(ttk.Notebook):
+
     def __init__(self, root, *args, **kwargs):
         super().__init__(master=root, *args, **kwargs)
         self.grid(column=0, row=0, sticky=(N, W, E, S))
 
+
 class MyFrame(ttk.Frame):
+
     def __init__(self, root, title,  *args, **kwargs):
         super().__init__(master=root, *args, **kwargs)
         self.grid(column=0, row=0, sticky=(N, W, E, S))
-        self.title=title
+        self.title = title
 
     def add_to_notebook(self, nb):
         nb.add(self, text=self.title)
 
+
 class MyPanedwindow(ttk.Panedwindow):
+
     def __init__(self, root, title,  *args, **kwargs):
         super().__init__(master=root, *args, **kwargs)
-        self.title=title
+        self.title = title
 
     def add_to_notebook(self, nb):
         nb.add(self, text=self.title)
 
 
 class FloatingWindow(MyFrame):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.configure(relief = 'raised', padding = (30,20))
+        self.configure(relief='raised', padding=(30, 20))
 
     def add_to_notebook(self, nb):
         NotImplemented
 
+
 class Draggable:
+
     def __init__(self, thing, parent, *args, **kwargs):
         self.thing = thing
         self.parent = parent
@@ -128,7 +149,9 @@ class Draggable:
     def drop(self, event):
         NotImplemented
 
+
 class MyApp:
+
     def __init__(self):
         self.root = Tk()
         self.root.title('Test of an app')
@@ -146,10 +169,25 @@ class MyApp:
         # Simple buttons
         f1 = MyFrame(self.root, title="Simple buttons")
         f1.add_to_notebook(self.nb)
-        pbut1 = PrintButton(text='1', master=f1, title='print 1', row=0, column=0)
-        pbut2 = PrintButton(text='2', master=f1, title='print 2', row=0, column=1)
+        pbut1 = PrintButton(
+            text='1',
+            master=f1,
+            title='print 1',
+            row=0,
+            column=0)
+        pbut2 = PrintButton(
+            text='2',
+            master=f1,
+            title='print 2',
+            row=0,
+            column=1)
         button1 = TrickButton(master=f1, title='click me', row=1, column=0)
-        button_exit = ExitButton(self.root, master=f1, title='exit', row=1, column=1)
+        button_exit = ExitButton(
+            self.root,
+            master=f1,
+            title='exit',
+            row=1,
+            column=1)
 
     def add_f2(self):
         # Nested frame
@@ -169,13 +207,48 @@ class MyApp:
         # MessageBox buttons
         f3 = MyFrame(self.root, title="messagebox")
         f3.add_to_notebook(self.nb)
-        b3_1 = CallButton(master=f3, title='askokcancel', row=0, column=0, func=MessageBoxFactory.askokcancel())
-        b3_2 = CallButton(master=f3, title='askquestion', row=0, column=1, func=MessageBoxFactory.askquestion())
-        b3_3 = CallButton(master=f3, title='askretrycancel', row=0, column=2, func=MessageBoxFactory.askretrycancel())
-        b3_4 = CallButton(master=f3, title='askyesno', row=1, column=0, func=MessageBoxFactory.askyesno())
-        b3_5 = CallButton(master=f3, title='showerror', row=1, column=1, func=MessageBoxFactory.showerror())
-        b3_6 = CallButton(master=f3, title='showinfo', row=1, column=2, func=MessageBoxFactory.showinfo())
-        b3_7 = CallButton(master=f3, title='showwarning', row=2, column=0, func=MessageBoxFactory.showwarning())
+        b3_1 = CallButton(
+            master=f3,
+            title='askokcancel',
+            row=0,
+            column=0,
+            func=MessageBoxFactory.askokcancel())
+        b3_2 = CallButton(
+            master=f3,
+            title='askquestion',
+            row=0,
+            column=1,
+            func=MessageBoxFactory.askquestion())
+        b3_3 = CallButton(
+            master=f3,
+            title='askretrycancel',
+            row=0,
+            column=2,
+            func=MessageBoxFactory.askretrycancel())
+        b3_4 = CallButton(
+            master=f3,
+            title='askyesno',
+            row=1,
+            column=0,
+            func=MessageBoxFactory.askyesno())
+        b3_5 = CallButton(
+            master=f3,
+            title='showerror',
+            row=1,
+            column=1,
+            func=MessageBoxFactory.showerror())
+        b3_6 = CallButton(
+            master=f3,
+            title='showinfo',
+            row=1,
+            column=2,
+            func=MessageBoxFactory.showinfo())
+        b3_7 = CallButton(
+            master=f3,
+            title='showwarning',
+            row=2,
+            column=0,
+            func=MessageBoxFactory.showwarning())
 
     def add_f4(self):
         # implement a regular expression GUI
@@ -188,12 +261,36 @@ class MyApp:
         def get_match(*args):
             match.set(re.search(pattern.get(), expression.get()).group())
 
-        ttk.Entry(f4, width=20, textvariable=expression).grid(column=0, row=0, pady=5)
+        ttk.Entry(
+            f4,
+            width=20,
+            textvariable=expression).grid(
+            column=0,
+            row=0,
+         pady=5)
         ttk.Label(f4, text='expression').grid(column=1, row=0, sticky=W, padx=5)
-        ttk.Entry(f4, width=20, textvariable=pattern).grid(column=0, row=1, pady=5)
+        ttk.Entry(
+            f4,
+            width=20,
+            textvariable=pattern).grid(
+            column=0,
+            row=1,
+         pady=5)
         ttk.Label(f4, text='pattern').grid(column=1, row=1, sticky=W, padx=5)
-        ttk.Label(f4, textvariable=match).grid(column=0, row=2, sticky=W, padx=5)
-        CallButton(master=f4, title="Do It", column=0, row=3, padx=5, func=get_match)
+        ttk.Label(
+            f4,
+            textvariable=match).grid(
+            column=0,
+            row=2,
+            sticky=W,
+         padx=5)
+        CallButton(
+            master=f4,
+            title="Do It",
+            column=0,
+            row=3,
+            padx=5,
+            func=get_match)
 
     def add_f5(self):
         # implement a regular expression GUI
@@ -203,7 +300,12 @@ class MyApp:
         canvas.grid(column=0, row=0, sticky=(N, W, E, S))
 
         cf = FloatingWindow(root=f5, title="Floating Window")
-        CallButton(master=cf, title='showinfo', row=0, column=0, func=MessageBoxFactory.showinfo())
+        CallButton(
+            master=cf,
+            title='showinfo',
+            row=0,
+            column=0,
+            func=MessageBoxFactory.showinfo())
         drag_cf = Draggable(cf, canvas, 50, 30)
 
 MyApp()
