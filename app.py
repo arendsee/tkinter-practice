@@ -212,43 +212,43 @@ class MyApp:
         # MessageBox buttons
         f3 = MyFrame(self.root, title="messagebox")
         f3.add_to_notebook(self.nb)
-        b3_1 = CallButton(
+        CallButton(
             master=f3,
             title='askokcancel',
             row=0,
             column=0,
             func=MessageBoxFactory.askokcancel())
-        b3_2 = CallButton(
+        CallButton(
             master=f3,
             title='askquestion',
             row=0,
             column=1,
             func=MessageBoxFactory.askquestion())
-        b3_3 = CallButton(
+        CallButton(
             master=f3,
             title='askretrycancel',
             row=0,
             column=2,
             func=MessageBoxFactory.askretrycancel())
-        b3_4 = CallButton(
+        CallButton(
             master=f3,
             title='askyesno',
             row=1,
             column=0,
             func=MessageBoxFactory.askyesno())
-        b3_5 = CallButton(
+        CallButton(
             master=f3,
             title='showerror',
             row=1,
             column=1,
             func=MessageBoxFactory.showerror())
-        b3_6 = CallButton(
+        CallButton(
             master=f3,
             title='showinfo',
             row=1,
             column=2,
             func=MessageBoxFactory.showinfo())
-        b3_7 = CallButton(
+        CallButton(
             master=f3,
             title='showwarning',
             row=2,
@@ -280,7 +280,7 @@ class MyApp:
             textvariable=pattern).grid(
             column=0,
             row=1,
-         pady=5)
+            pady=5)
         ttk.Label(f4, text='pattern').grid(column=1, row=1, sticky=W, padx=5)
         ttk.Label(
             f4,
