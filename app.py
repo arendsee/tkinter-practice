@@ -127,24 +127,29 @@ class FloatingWindow(MyFrame):
 
 
 class Draggable:
+    '''
+    This (currently incomplete) class is used to add Draggability to an object.
+    It takes the thing (a widget of some sort) and a canvas as arguments.
+    '''
 
-    def __init__(self, thing, parent, *args, **kwargs):
-        self.thing = thing
-        self.parent = parent
+    def __init__(self, widget, canvas, *args, **kwargs):
+        self.widget = widget
+        self.canvas = canvas
 
-        fid = parent.create_window(window=thing, *args, **kwargs)
-        parent.tag_bind(fid, '<ButtonPress-1>',   self.select)
-        parent.tag_bind(fid, '<B1-Motion>',       self.drag)
-        parent.tag_bind(fid, '<ButtonRelease-1>', self.drop)
+        self.fid = canvas.create_window(window=widget, *args, **kwargs)
+        widget.bind('<ButtonPress-1>',   self.select)
+        widget.bind('<B1-Motion>',       self.move)
+        widget.bind('<ButtonRelease-1>', self.drop)
 
     def move(self, event):
-        NotImplemented
+        dx = event.x - self.x
+        dy = event.y - self.y
+        self.canvas.move(self.fid, dx, dy)
 
     def select(self, event):
-        NotImplemented
-
-    def drag(self, event):
-        NotImplemented
+        # set initial location relative to the canvas
+        self.x = self.canvas.canvasx(event.x)
+        self.y = self.canvas.canvasy(event.y)
 
     def drop(self, event):
         NotImplemented
@@ -267,7 +272,7 @@ class MyApp:
             textvariable=expression).grid(
             column=0,
             row=0,
-         pady=5)
+            pady=5)
         ttk.Label(f4, text='expression').grid(column=1, row=0, sticky=W, padx=5)
         ttk.Entry(
             f4,
@@ -293,7 +298,13 @@ class MyApp:
             func=get_match)
 
     def add_f5(self):
-        # implement a regular expression GUI
+        '''
+        The Canvas object is complicated and powerful. I should spend some
+        time working out exactly how to work with it. Here are some nice
+        tutorials:
+            http://effbot.org/tkinterbook/canvas.htm - nice description,
+            also specifies parameters for all canvas functions
+        '''
         f5 = MyFrame(self.root, title="canvas")
         f5.add_to_notebook(self.nb)
         canvas = Canvas(f5)
@@ -308,4 +319,6 @@ class MyApp:
             func=MessageBoxFactory.showinfo())
         drag_cf = Draggable(cf, canvas, 50, 30)
 
-MyApp()
+
+if __name__ == '__main__':
+    MyApp()
