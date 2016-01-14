@@ -159,6 +159,8 @@ class MyApp:
 
     def __init__(self):
         self.root = Tk()
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
         self.root.title('Test of an app')
         self.nb = MyNotebook(self.root)
 
