@@ -176,20 +176,20 @@ class MyApp:
         # Simple buttons
         f1 = MyFrame(self.root, title="Simple buttons")
         f1.add_to_notebook(self.nb)
-        pbut1 = PrintButton(
+        PrintButton(
             text='1',
             master=f1,
             title='print 1',
             row=0,
             column=0)
-        pbut2 = PrintButton(
+        PrintButton(
             text='2',
             master=f1,
             title='print 2',
             row=0,
             column=1)
-        button1 = TrickButton(master=f1, title='click me', row=1, column=0)
-        button_exit = ExitButton(
+        TrickButton(master=f1, title='click me', row=1, column=0)
+        ExitButton(
             self.root,
             master=f1,
             title='exit',
@@ -200,9 +200,9 @@ class MyApp:
         # Nested frame
         f2 = MyPanedwindow(self.root, title='Nested frames', orient=VERTICAL)
         f2.add_to_notebook(self.nb)
-        nf1 = ttk.Labelframe(f2, text="Nested Frame 1", width=100)
-        nf2 = ttk.Labelframe(f2, text="Nested Frame 2", width=100)
-        nf3 = ttk.Labelframe(f2, text="Nested Frame 3", width=100)
+        nf1 = ttk.Labelframe(f2, text="Nested Frame 1")
+        nf2 = ttk.Labelframe(f2, text="Nested Frame 2")
+        nf3 = ttk.Labelframe(f2, text="Nested Frame 3")
         ttk.Label(nf1, text='frame 1').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(nf2, text='frame 2').grid(row=0, column=0, padx=5, pady=5)
         ttk.Label(nf3, text='frame 3').grid(row=0, column=0, padx=5, pady=5)
@@ -319,7 +319,7 @@ class MyApp:
             row=0,
             column=0,
             func=MessageBoxFactory.showinfo())
-        drag_cf = Draggable(cf, canvas, 50, 30)
+        Draggable(cf, canvas, 50, 30)
 
 
 if __name__ == '__main__':
