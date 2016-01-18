@@ -162,6 +162,8 @@ class MyApp:
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         self.root.title('Test of an app')
+        self.style = ttk.Style()
+        self.style.theme_use('classic')
         self.nb = MyNotebook(self.root)
 
         self.add_f1()
